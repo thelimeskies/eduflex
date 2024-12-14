@@ -18,9 +18,35 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
+# import accounts django allauth
+# from allauth.account import views as allauth_views
+
 
 urlpatterns = [
+    path("accounts/", include("allauth.urls")),
     path("admin/", admin.site.urls),
+    # API
+    path("api/v1/auth/", include("users.urls")),
+    path("api/v1/school/", include("school.urls")),
+    path("api/v1/customer/", include("customer.urls")),
+    # API Documentation
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger",
+    ),
+    path(
+        "redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
 ]
 
 

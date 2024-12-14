@@ -1,6 +1,9 @@
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class School(models.Model):
@@ -13,6 +16,8 @@ class School(models.Model):
     logo = models.ImageField(upload_to="school/logos/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    admin = models.OneToOneField(User, on_delete=models.CASCADE, related_name="school")
 
     def __str__(self):
         return self.name
@@ -73,3 +78,5 @@ class SchoolFee(models.Model):
         verbose_name = _("School Fee")
         verbose_name_plural = _("School Fees")
         ordering = ["school_class", "term"]
+
+        unique_together = ["school_class", "term"]

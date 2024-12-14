@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import School, SchoolCategory, SchoolClass
+from .models import School, SchoolCategory, SchoolClass, SchoolFee, Term
 
 
 class SchoolOnboardingSerializer(serializers.Serializer):
@@ -43,7 +43,9 @@ class SchoolOnboardingSerializer(serializers.Serializer):
         Creates a School instance and dynamically creates SchoolClass instances for the selected categories.
         """
         categories = validated_data.pop("categories")
-        school = School.objects.create(**validated_data)
+        school = School.objects.create(
+            admin=self.context["request"].user, **validated_data
+        )
 
         # Dynamically create SchoolClass instances based on selected categories
         category_classes = {
@@ -62,3 +64,57 @@ class SchoolOnboardingSerializer(serializers.Serializer):
                     )
 
         return school
+
+
+class SchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = "__all__"
+
+
+class SchoolCategorySerializer(serializers.Serializer):
+    category = serializers.ChoiceField(choices=SchoolCategory.choices)
+    classes = serializers.ListField(child=serializers.CharField())
+
+
+class SchoolClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolClass
+        fields = "__all__"
+
+
+class SchoolFeeSerializer(serializers.Serializer):
+    school_class_id = serializers.UUIDField()
+    school_class = SchoolClassSerializer(read_only=True)
+    term = serializers.ChoiceField(choices=Term.choices)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    def validate_school_class(self, value):
+        """
+        Validates that the school class exists.
+        """
+        try:
+            school_class = SchoolClass.objects.get(id=value)
+        except SchoolClass.DoesNotExist:
+            raise serializers.ValidationError("Invalid school class.")
+
+        return school_class
+
+    def validate(self, data):
+        """
+        Validates that the fee amount is greater than zero.
+        """
+        if data["amount"] <= 0:
+            raise serializers.ValidationError("Fee amount must be greater than zero.")
+
+        return data
+
+    def create(self, validated_data):
+        return SchoolFee.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if hasattr(instance, attr):
+                setattr(instance, attr, value)
+        instance.save()
+        return instance

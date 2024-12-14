@@ -30,14 +30,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django Allauth Settings
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # Default dj-allauth == username
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Default dj-allauth == username
 ACCOUNT_EMAIL_REQUIRED = True  # Default dj-allauth == False
 ACCOUNT_UNIQUE_EMAIL = True  # Default dj-allauth
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Default dj-allauth (optional)
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Default dj-allauth
 # deprecated ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5  # Default dj-allauth
 # ACCOUNT_RATE_LIMITS = ['login_failed'] # Using  (default: "10/m/ip,5/5m/key")
-ACCOUNT_USERNAME_REQUIRED = True  # Default dj-allauth
+ACCOUNT_USERNAME_REQUIRED = False  # Default dj-allauth
 ACCOUNT_USERNAME_MIN_LENGTH = 3  # Default dj-allauth == 1
 ACCOUNT_USERNAME_BLACKLIST = username_blacklist
 
@@ -55,7 +55,7 @@ MANAGERS = ADMINS
 # service provider.  Change to something like "SYSTEM@your_domain.com"
 SERVER_EMAIL = ""
 
-#Django Settings
+# Django Settings
 # LOGIN_REDIRECT_URL For new project convenience, change to your project requirements.
 LOGIN_REDIRECT_URL = "/admin/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
@@ -98,6 +98,13 @@ INSTALLED_APPS = [
     "django_htmx",
     "tailwind",
     "theme",
+    "rest_framework",
+    "dj_rest_auth",
+    "rest_framework.authtoken",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
+    "customer",
+    "school",
 ]
 
 
@@ -170,9 +177,7 @@ CONSTANCE_CONFIG = {
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    "User Settings": (
-        "ALLOW_NEW_USER_SIGNUP",
-    ),
+    "User Settings": ("ALLOW_NEW_USER_SIGNUP",),
 }
 
 
@@ -254,7 +259,7 @@ LOGGING = {
     },
     "loggers": {
         "": {
-            "handlers": ["console","mail_admins", "rotated_logs", "stdout"],
+            "handlers": ["console", "mail_admins", "rotated_logs", "stdout"],
             # "level": Overridden in each config/settings file for environ
         },
         "django": {
@@ -288,7 +293,57 @@ def exception_hook(type, value, traceback):
         f"Uncaught Exception!", exc_info=(type, value, traceback)
     )
 
+
 # The function assigned to sys.excepthook is called just before control is
 # returned to the prompt; in a Python program this happens just before
 # the program exits.
 sys.excepthook = exception_hook
+
+
+# Spectacular Settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Eduflex API",
+    "DESCRIPTION": "API for Eduflex project",
+    "VERSION": "0.1.0",
+    "SCHEMA_PATH_PREFIX": r"/api/v1/",
+    # Optional: MAY use a list of servers for the API
+    "SERVERS": [
+        {
+            "url": "http://localhost:8000/api/v1/",
+            "description": "Local Development Server",
+        },
+    ],
+    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+}
+
+
+# Rest Framework Settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
+
+# DJ Rest Auth Settings
+# https://dj-rest-auth.readthedocs.io/en/latest/configuration.html
+REST_AUTH = {
+    "USE_JWT": True,  # Corrected key syntax
+    "JWT_AUTH_COOKIE": "eduflex-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "eduflex-refresh",
+}
+
+
+# CORS Settings
+
+# CSRF Settings
