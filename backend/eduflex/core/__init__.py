@@ -1,0 +1,1 @@
+"""Initialise eduflex Core App."""
