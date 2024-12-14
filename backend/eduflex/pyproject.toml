@@ -1,15 +1,32 @@
-
 [tool.semantic_release]
 
+# The branch from which releases will be made
 branch = "main"
-version_variable = "README.rst:Version,version.toml:__version__,docs/source/conf.py:__version__"
 
+# Locations of version variables to update during release
+version_variable = """
+README.rst:Version,
+version.toml:__version__,
+docs/source/conf.py:__version__
+"""
+
+# Optional build command to run before release (leave empty if not needed)
 build_command = ""
-remove_dist = false
-upload_to_release = false
 
-major_on_zero = false
+# Whether to remove the `dist` directory before building
+remove_dist = true
+
+# Whether to upload the release artifacts to GitHub Releases
+upload_to_release = true
+
+# Treat major versions starting from 0 as minor increments
+major_on_zero = true
+
+# Disable uploading the release to PyPI
 upload_to_pypi = false
+
+# Skip build status checks
 check_build_status = false
 
+# Custom commit subject for version bumps
 commit_subject = ":memo: build(version): Bump to version - {version}."
