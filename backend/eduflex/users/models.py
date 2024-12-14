@@ -1,5 +1,6 @@
 """eduflex project CustomUser Models."""
 
+import uuid
 from django.apps import apps
 from django.contrib import auth
 from django.contrib.auth.base_user import BaseUserManager
@@ -119,6 +120,13 @@ class CustomUser(AbstractUser):
         STAFF = "STAFF", _("Staff")
         SUPERUSER = "SUPERUSER", _("Superuser")
 
+    id = models.UUIDField(
+        _("ID"),
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+        help_text="Unique identifier for the user.",
+    )
     user_type = models.CharField(
         _("Type"),
         null=False,
