@@ -309,7 +309,7 @@ SPECTACULAR_SETTINGS = {
     # Optional: MAY use a list of servers for the API
     "SERVERS": [
         {
-            "url": "http://localhost:8000/api/v1/",
+            "url": "http://localhost:8000",
             "description": "Local Development Server",
         },
     ],

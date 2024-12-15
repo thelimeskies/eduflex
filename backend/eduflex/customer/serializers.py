@@ -38,28 +38,20 @@ class ParentOnboardingSerializer(serializers.Serializer):
 
     def validate(self, data):
         """
-        Validates that first_name, last_name, and phone are provided.
+        Validates that the phone number is unique.
         """
-        if (
-            not data.get("first_name")
-            or not data.get("last_name")
-            or not data.get("phone")
-        ):
+        if Parents.objects.filter(phone=data["phone"]).exists():
             raise serializers.ValidationError(
-                "First name, last name, and phone must be provided."
+                "A parent with this phone number already exists."
             )
 
         return data
 
     def create(self, validated_data):
         kyc_data = validated_data.pop("kyc")
-        user = User.objects.create_user(
-            username=validated_data["phone"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
-            phone=validated_data["phone"],
+        parent = Parents.objects.create(
+            user=self.context["request"].user, **validated_data
         )
-        parent = Parents.objects.create(user=user, **validated_data)
         ParentKYC.objects.create(parent=parent, **kyc_data)
 
         return parent
