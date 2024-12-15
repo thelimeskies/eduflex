@@ -341,6 +341,9 @@ REST_AUTH = {
     "USE_JWT": True,  # Corrected key syntax
     "JWT_AUTH_COOKIE": "eduflex-auth",
     "JWT_AUTH_REFRESH_COOKIE": "eduflex-refresh",
+    "USER_DETAILS_SERIALIZER": "users.serializers.CustomUserDetailsSerializer",
+    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
+    "LOGIN_SERIALIZER": "users.serializers.CustomLoginSerializer",
 }
 
 

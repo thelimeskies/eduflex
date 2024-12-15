@@ -136,3 +136,12 @@ class CustomUser(AbstractUser):
         default=CustomUserType.FREE,
         help_text="Displays the users current user type.",
     )
+
+    @property
+    def has_onboarded(self):
+        """Check if user is onboarded"""
+        if hasattr(self, "school"):
+            return True
+        if hasattr(self, "parent"):
+            return True
+        return False

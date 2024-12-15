@@ -1,6 +1,8 @@
 from rest_framework import serializers
-
 from .models import Parents, Student, ParentKYC, ParentIDCategory
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class ParentKYCSerializer(serializers.Serializer):
@@ -48,3 +50,27 @@ class ParentOnboardingSerializer(serializers.Serializer):
             )
 
         return data
+
+    def create(self, validated_data):
+        kyc_data = validated_data.pop("kyc")
+        user = User.objects.create_user(
+            username=validated_data["phone"],
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
+            phone=validated_data["phone"],
+        )
+        parent = Parents.objects.create(user=user, **validated_data)
+        ParentKYC.objects.create(parent=parent, **kyc_data)
+
+        return parent
+
+
+class ParentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parents
+        fields = [
+            "id",
+            "phone",
+            "address",
+            "occupation",
+        ]
