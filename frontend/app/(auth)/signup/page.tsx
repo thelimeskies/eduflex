@@ -22,30 +22,30 @@ export default function SignUp() {
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
-                  htmlFor="name"
+                  htmlFor="first-name"
                 >
-                  Name <span className="text-red-500">*</span>
+                  First Name <span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="name"
+                  id="first-name"
                   type="text"
                   className="form-input w-full"
-                  placeholder="Your full name"
+                  placeholder="Your first name"
                   required
                 />
               </div>
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
-                  htmlFor="name"
+                  htmlFor="last-name"
                 >
-                  Company Name <span className="text-red-500">*</span>
+                  Last Name <span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="company"
+                  id="last-name"
                   type="text"
                   className="form-input w-full"
-                  placeholder="Your company name"
+                  placeholder="Your last name"
                   required
                 />
               </div>
@@ -54,18 +54,19 @@ export default function SignUp() {
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
                   htmlFor="email"
                 >
-                  Work Email <span className="text-red-500">*</span>
+                  Email <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="email"
                   type="email"
                   className="form-input w-full"
-                  placeholder="Your work email"
+                  placeholder="Your email address"
+                  required
                 />
               </div>
               <div>
                 <label
-                  className="block text-sm font-medium text-indigo-200/65"
+                  className="mb-1 block text-sm font-medium text-indigo-200/65"
                   htmlFor="password"
                 >
                   Password <span className="text-red-500">*</span>
@@ -75,6 +76,22 @@ export default function SignUp() {
                   type="password"
                   className="form-input w-full"
                   placeholder="Password (at least 10 characters)"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium text-indigo-200/65"
+                  htmlFor="retype-password"
+                >
+                  Retype Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="retype-password"
+                  type="password"
+                  className="form-input w-full"
+                  placeholder="Retype your password"
+                  required
                 />
               </div>
             </div>
