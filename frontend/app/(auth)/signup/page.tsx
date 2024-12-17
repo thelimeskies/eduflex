@@ -7,7 +7,6 @@
 import Link from "next/link";
 import { register } from "@/app/actions/auth";
 import { useActionState } from "react";
-// import { signIn } from "@/auth";
 
 export default function SignUp() {
   const [state, action, pending] = useActionState(register, undefined)
@@ -40,7 +39,9 @@ export default function SignUp() {
                   placeholder="Your first name"
                   required
                 />
+                {state?.errors?.firstname && <p>{state.errors.firstname}</p>}
               </div>
+
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
@@ -56,7 +57,9 @@ export default function SignUp() {
                   placeholder="Your last name"
                   required
                 />
+                {state?.errors?.lastname && <p>{state.errors.lastname}</p>}
               </div>
+
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
@@ -72,7 +75,9 @@ export default function SignUp() {
                   placeholder="Your email address"
                   required
                 />
+                {state?.errors?.email && <p>{state.errors.email}</p>}
               </div>
+
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
@@ -88,7 +93,9 @@ export default function SignUp() {
                   placeholder="Password (at least 10 characters)"
                   required
                 />
+                {state?.errors?.password && <p>{state.errors.password}</p>}
               </div>
+
               <div>
                 <label
                   className="mb-1 block text-sm font-medium text-indigo-200/65"
@@ -104,7 +111,9 @@ export default function SignUp() {
                   placeholder="Retype your password"
                   required
                 />
+                {state?.errors?.confirm && <p>{state.errors.confirm}</p>}
               </div>
+
             </div>
             <div className="mt-6 space-y-5">
               <button type="submit" className="btn w-full bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
