@@ -1,6 +1,6 @@
 "use client"
 /* export const metadata = {
-  title: "Sign Up - Open PRO",
+  title: "Sign Up - EDUFlex",
   description: "Page description",
 }; */
 

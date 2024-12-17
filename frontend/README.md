@@ -16,9 +16,9 @@ _Version 3.3.0 (before redesign) built with Tailwind CSS and Next.js is availabl
 
 Check the live demo here 👉️ [https://open.cruip.com/](https://open.cruip.com/)
 
-## Open PRO
+## EDUFlex
 
-[![Open Pro](https://github.com/user-attachments/assets/2062c728-95f1-4d59-aa2d-d63556f625d5)](https://cruip.com/)
+[![EDUFlex](https://github.com/user-attachments/assets/2062c728-95f1-4d59-aa2d-d63556f625d5)](https://cruip.com/)
 
 ## Design files
 
