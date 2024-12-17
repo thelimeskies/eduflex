@@ -69,7 +69,7 @@ class Student(models.Model):
         "school.School", on_delete=models.CASCADE, related_name="students"
     )
     school_class = models.ForeignKey(
-        "school.SchoolClass", on_delete=models.CASCADE, related_name="students"
+        "school.SchoolClass", on_delete=models.CASCADE, related_name="student_class"
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -86,3 +86,29 @@ class Student(models.Model):
         verbose_name = _("Student")
         verbose_name_plural = _("Students")
         ordering = ["first_name", "last_name"]
+
+
+class ParentCreditCapacityScore(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    parent = models.OneToOneField(
+        Parents, on_delete=models.CASCADE, related_name="credit_capacity_score"
+    )
+    credit_score = models.DecimalField(max_digits=5, decimal_places=2)
+    capacity_score = models.DecimalField(max_digits=5, decimal_places=2)
+    
+    credit_score_description = models.CharField(max_length=50)
+    capacity_score_description = models.CharField(max_length=50)
+
+    credit_score_recommendation = models.TextField()
+    capacity_score_recommendation = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.parent.user.first_name} {self.parent.user.last_name}"
+
+    class Meta:
+        verbose_name = _("Parent Credit and Capacity Score")
+        verbose_name_plural = _("Parent Credit and Capacity Scores")
+        ordering = ["parent__user__first_name", "parent__user__last_name"]

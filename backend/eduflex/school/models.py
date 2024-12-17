@@ -80,3 +80,34 @@ class SchoolFee(models.Model):
         ordering = ["school_class", "term"]
 
         unique_together = ["school_class", "term"]
+
+
+class PaymentStatus(models.TextChoices):
+    PENDING = "Pending", _("Pending")
+    SUCCESSFUL = "Successful", _("Successful")
+    FAILED = "Failed", _("Failed")
+
+
+class Payments(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    school = models.ForeignKey(
+        School, on_delete=models.CASCADE, related_name="payments"
+    )
+    child = models.ForeignKey(
+        "customer.Student", on_delete=models.CASCADE, related_name="payments"
+    )
+    # credit = models.ForeignKey(
+    #     "credit.Credit", on_delete=models.CASCADE, related_name="payments"
+    # )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.school.name} - ₦{self.amount}"
+
+    class Meta:
+        verbose_name = _("Payment")
+        verbose_name_plural = _("Payments")
+        ordering = ["-payment_date"]

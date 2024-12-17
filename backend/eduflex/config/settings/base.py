@@ -105,6 +105,8 @@ INSTALLED_APPS = [
     "drf_spectacular_sidecar",
     "customer",
     "school",
+    "ecraspay_django",
+    "credit",
 ]
 
 

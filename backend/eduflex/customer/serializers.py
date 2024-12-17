@@ -66,3 +66,28 @@ class ParentSerializer(serializers.ModelSerializer):
             "address",
             "occupation",
         ]
+
+
+class ChildrenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "date_of_birth",
+            "school_class",
+            "school",
+            "parent",
+        ]
+
+
+class ParentCreditAndCapacityScoreSerializer(serializers.Serializer):
+    credit_score = serializers.IntegerField()
+    capacity_score = serializers.IntegerField()
+    credit_score_description = serializers.CharField()
+    capacity_score_description = serializers.CharField()
+    credit_score_recommendation = serializers.CharField()
+    capacity_score_recommendation = serializers.CharField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
