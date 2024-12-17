@@ -1,11 +1,17 @@
-export const metadata = {
+"use client"
+/* export const metadata = {
   title: "Sign Up - Open PRO",
   description: "Page description",
-};
+}; */
 
 import Link from "next/link";
+import { register } from "@/app/actions/auth";
+import { useActionState } from "react";
+// import { signIn } from "@/auth";
 
 export default function SignUp() {
+  const [state, action, pending] = useActionState(register, undefined)
+
   return (
     <section>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -17,7 +23,7 @@ export default function SignUp() {
             </h1>
           </div>
           {/* Contact form */}
-          <form className="mx-auto max-w-[400px]">
+          <form action={action} className="mx-auto max-w-[400px]">
             <div className="space-y-5">
               <div>
                 <label
@@ -28,6 +34,7 @@ export default function SignUp() {
                 </label>
                 <input
                   id="first-name"
+                  name="firstname"
                   type="text"
                   className="form-input w-full"
                   placeholder="Your first name"
@@ -43,6 +50,7 @@ export default function SignUp() {
                 </label>
                 <input
                   id="last-name"
+                  name="lastname"
                   type="text"
                   className="form-input w-full"
                   placeholder="Your last name"
@@ -58,6 +66,7 @@ export default function SignUp() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   className="form-input w-full"
                   placeholder="Your email address"
@@ -73,6 +82,7 @@ export default function SignUp() {
                 </label>
                 <input
                   id="password"
+                  name="password"
                   type="password"
                   className="form-input w-full"
                   placeholder="Password (at least 10 characters)"
@@ -88,6 +98,7 @@ export default function SignUp() {
                 </label>
                 <input
                   id="retype-password"
+                  name="confirm"
                   type="password"
                   className="form-input w-full"
                   placeholder="Retype your password"
@@ -96,7 +107,7 @@ export default function SignUp() {
               </div>
             </div>
             <div className="mt-6 space-y-5">
-              <button className="btn w-full bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
+              <button type="submit" className="btn w-full bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
                 Register
               </button>
               <div className="flex items-center gap-3 text-center text-sm italic text-gray-600 before:h-px before:flex-1 before:bg-gradient-to-r before:from-transparent before:via-gray-400/25 after:h-px after:flex-1 after:bg-gradient-to-r after:from-transparent after:via-gray-400/25">
