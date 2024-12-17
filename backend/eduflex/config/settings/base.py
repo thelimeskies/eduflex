@@ -33,7 +33,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # Default dj-allauth == username
 ACCOUNT_EMAIL_REQUIRED = True  # Default dj-allauth == False
 ACCOUNT_UNIQUE_EMAIL = True  # Default dj-allauth
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Default dj-allauth (optional)
+ACCOUNT_EMAIL_VERIFICATION = "optional"  # Default dj-allauth (optional)
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Default dj-allauth
 # deprecated ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5  # Default dj-allauth
 # ACCOUNT_RATE_LIMITS = ['login_failed'] # Using  (default: "10/m/ip,5/5m/key")
